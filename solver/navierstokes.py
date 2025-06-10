@@ -2,6 +2,7 @@ import numpy as np
 from solver.poisson import pressure_poisson
 from solver.boundary import apply_boundary_conditions
 from solver.velocity import update_velocity
+from tqdm import trange
 
 def run_simulation(config, grid, fields):
     u = fields["u"]
@@ -21,7 +22,7 @@ def run_simulation(config, grid, fields):
     b = np.zeros((Ny, Nx))
     history = []
 
-    for step in range(n_steps):
+    for step in trange(n_steps, desc="Simulating", unit="step"):
         un = u.copy()
         vn = v.copy()
 
