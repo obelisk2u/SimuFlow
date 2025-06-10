@@ -1,0 +1,14 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Recursively ignore all __pycache__ directories
+**/__pycache__/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Output and result files
+results/output/
+*.png

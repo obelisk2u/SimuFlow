@@ -10,5 +10,5 @@ physics:
 
 solver:
   dt: 0.001 # Time step (seconds)
-  n_steps: 100 # Number of time steps
+  n_steps: 1000 # Number of time steps
   convergence_tol: 1e-5
