@@ -1,17 +1,20 @@
 domain:
   Lx: 1.0 # Length in x-direction (meters)
   Ly: 1.0 # Length in y-direction (meters)
-  Nx: 100 # Number of grid points in x
-  Ny: 100 # Number of grid points in y
+  Nx: 500 # Grid points in x
+  Ny: 500 # Grid points in y
 
 physics:
   viscosity: 0.0001 # Kinematic viscosity (m^2/s)
   density: 1.0 # Fluid density (kg/m^3)
 
 solver:
-  dt: 0.001 # Time step (seconds)
-  n_steps: 5000 # Number of time steps
+  dt: 0.00005 # Time step (seconds)
+  n_steps: 4000 # Number of time steps
   convergence_tol: 1e-5
 
 boundary:
-  inflow_velocity: 1.0
+  inflow_velocity: 5.0
+
+scalar:
+  diffusivity: 0.00005 # Diffusion coefficient for passive scalar

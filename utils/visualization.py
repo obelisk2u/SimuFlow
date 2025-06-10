@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import os
 import numpy as np
-
+import matplotlib.animation as animation
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -68,4 +68,46 @@ def save_vorticity_plot(history, grid, step=-1, filename='results/output/vortici
     plt.axis('equal')
     plt.tight_layout()
     plt.savefig(filename)
+    plt.close()
+
+def animate_scalar(history, grid, filename='results/output/scalar_animation.mp4'):
+    X = grid["X"]
+    Y = grid["Y"]
+
+    fig, ax = plt.subplots(figsize=(6, 5))
+
+    def update(frame):
+        ax.clear()
+        s = history[frame]["scalar"]
+        contour = ax.contourf(X, Y, s, levels=100, cmap='inferno')
+        ax.set_title(f"Scalar Field (step = {frame})")
+        ax.set_xlabel("x")
+        ax.set_ylabel("y")
+        ax.set_aspect('equal')
+        return contour.collections
+
+    anim = animation.FuncAnimation(
+        fig, update, frames=len(history), interval=50, blit=False
+    )
+
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    anim.save(filename, fps=30, dpi=150)
+    plt.close()
+
+def save_scalar_plot(history, grid, step=-1, filename='results/output/scalar.png'):
+    s = history[step]["scalar"]
+    X = grid["X"]
+    Y = grid["Y"]
+
+    plt.figure(figsize=(6, 5))
+    contour = plt.contourf(X, Y, s, levels=100, cmap='turbo') 
+    plt.colorbar(contour, label='Scalar field')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Passive Scalar Field')
+    plt.axis('equal')
+    plt.tight_layout()
+    
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    plt.savefig(filename, dpi=150)
     plt.close()
