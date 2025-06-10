@@ -46,3 +46,24 @@ def save_pressure_plot(history, grid, step=-1, filename='results/output/pressure
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     plt.savefig(filename)
     plt.close()
+
+def save_vorticity_plot(history, grid, step=-1, filename='results/output/vorticity.png'):
+    u = history[step]["u"]
+    v = history[step]["v"]
+    X = grid["X"]
+    Y = grid["Y"]
+    dx = grid["dx"]
+    dy = grid["dy"]
+
+    omega = (np.gradient(v, dx, axis=1) - np.gradient(u, dy, axis=0))
+
+    plt.figure(figsize=(6, 5))
+    contour = plt.contourf(X, Y, omega, levels=100, cmap='RdBu_r')
+    plt.colorbar(contour, label='Vorticity')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Vorticity Field')
+    plt.axis('equal')
+    plt.tight_layout()
+    plt.savefig(filename)
+    plt.close()
