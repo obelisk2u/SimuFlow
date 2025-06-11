@@ -11,4 +11,3 @@ __pycache__/
 
 # Output and result files
 results/output/
-*.png

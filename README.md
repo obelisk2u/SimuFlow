@@ -2,7 +2,7 @@
 
 SimuFlow is a 2D fluid dynamics simulation written in Python, implementing a simplified incompressible Navier-Stokes solver on a structured grid. It simulates the behavior of a scalar dye field advected and diffused by a velocity field, making it useful for educational purposes and prototyping fluid mechanics concepts.
 
-![](./results/plots/simuflow.png)
+##![](./results/plots/simuflow.png)
 
 ## Features
 
