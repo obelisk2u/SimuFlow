@@ -1,38 +1,51 @@
 # SimuFlow
 
-**SimuFlow** is a 2D Navier-Stokes solver implemented in Python for simulating incompressible fluid flow around a circular obstacle. The project emphasizes efficient numerical linear algebra for solving the pressure Poisson equation, a computational bottleneck in CFD simulations.
+SimuFlow is a 2D fluid dynamics simulation written in Python, implementing a simplified incompressible Navier-Stokes solver on a structured grid. It simulates the behavior of a scalar dye field advected and diffused by a velocity field, making it useful for educational purposes and prototyping fluid mechanics concepts.
 
-## Matrix Computations
+![](./results/plots/simuflow.png)
 
-The simulation relies heavily on sparse matrix operations for performance-critical components:
+## Features
 
-- **Sparse Poisson Solver**: The pressure correction step is formulated as a large sparse linear system, solved using `scipy.sparse.linalg.spsolve` with a precomputed Laplacian matrix.
-- **Laplacian Matrix**: The discrete 5-point Laplacian is constructed using Kronecker products of 1D second-derivative matrices in the x and y directions. This results in a large structured sparse matrix with shape `(Nx * Ny, Nx * Ny)`.
-- **Matrix-Free Potential**: The implementation is ready to be upgraded to matrix-free CG solvers to further improve performance, reducing memory overhead and enabling better cache utilization.
-- **Profiler-Aware Design**: Bottlenecks were identified using line profiling, showing that >95% of runtime was spent in the Poisson solve. This guided a refactor to build the Laplacian once and reuse it.
+- Incompressible Navier-Stokes solver (2D)
+- Advection-diffusion of scalar quantities
+- Pressure Poisson equation solved using sparse matrix methods
+- Obstacle masking to simulate solid objects
+- Customizable inflow velocity, viscosity, and grid resolution
+- Output of velocity, pressure, vorticity, and scalar concentration
+- Modular architecture for solver, mesh, boundary, and visualization
 
 ## Technologies
 
 - Python
 - NumPy
-- SciPy (sparse matrices, linear solvers)
-- Matplotlib (visualization)
-- tqdm (progress tracking)
+- SciPy (sparse linear algebra)
+- Matplotlib
+- tqdm (progress bar)
 
-## Performance Considerations
+## Usage
 
-To address the high cost of solving the pressure Poisson equation:
+1. Clone the repository:
 
-- The sparse Laplacian is constructed once and passed to the solver.
-- The solver uses efficient sparse matrix factorization and direct methods.
-- The code structure facilitates future extensions to use matrix-free CG, FFT-based solvers, or PETSc for multigrid methods.
+   ```bash
+   git clone https://github.com/obelisk2u/SimuFlow.git
+   cd SimuFlow
+   ```
 
-## Future Work
+2. Modify the configuration in `config.yaml` to set domain size, grid resolution, viscosity, and simulation steps.
 
-- Matrix-free Laplacian-vector product for use in iterative solvers
-- OpenMP-parallel C++ backend for pressure solve
-- Multigrid preconditioning (via PETSc or Hypre)
+3. Run the simulation:
 
-## License
+   ```bash
+   python main.py
+   ```
 
-MIT License
+4. View generated plots of velocity field, pressure distribution, and scalar dye field.
+
+## Directory Structure
+
+- `main.py` — Entry point; sets up configuration and runs the simulation
+- `mesh/` — Grid creation
+- `physics/` — Initial condition setup
+- `solver/` — Navier-Stokes solvers and linear solvers
+- `utils/` — Visualization utilities
+- `config.yaml` — YAML config file
