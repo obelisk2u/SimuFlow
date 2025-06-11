@@ -5,8 +5,8 @@ from solver.velocity import update_velocity
 from solver.boundary import apply_boundary_conditions
 from solver.poisson_sparse import build_laplacian, pressure_poisson_sparse
 
-
-def run_simulation(config, grid, fields):
+@profile
+def run_simulation(config, grid, fields, A):
     u = fields["u"]
     v = fields["v"]
     p = fields["p"]
@@ -16,9 +16,6 @@ def run_simulation(config, grid, fields):
     dy = grid["dy"]
     Nx = grid["Nx"]
     Ny = grid["Ny"]
-
-    A = build_laplacian(Nx, Ny, dx, dy)
-
 
     rho = config["physics"]["density"]
     nu = config["physics"]["viscosity"]

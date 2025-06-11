@@ -2,6 +2,7 @@ from mesh.grid import create_grid
 from physics.initial_conditions import initialize_fields
 from solver.navierstokes import run_simulation
 from utils.visualization import save_velocity_plot, save_pressure_plot,save_vorticity_plot, save_scalar_plot
+from solver.poisson_sparse import build_laplacian
 import yaml
 
 with open("config.yaml") as f:
@@ -30,8 +31,8 @@ config["obstacle"] = {
 fields = initialize_fields(config, grid)
 
 
-history = run_simulation(config, grid, fields)
-
+A = build_laplacian(grid["Nx"], grid["Ny"], grid["dx"], grid["dy"])
+history = run_simulation(config, grid, fields, A)
 save_velocity_plot(history, grid)
 save_pressure_plot(history, grid)
 save_vorticity_plot(history, grid)
