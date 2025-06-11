@@ -3,3 +3,4 @@ matplotlib
 tqdm
 pyyaml
 ffmpeg
+scipy
