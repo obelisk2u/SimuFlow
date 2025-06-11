@@ -3,6 +3,8 @@ from tqdm import trange
 from solver.poisson import pressure_poisson
 from solver.velocity import update_velocity
 from solver.boundary import apply_boundary_conditions
+from solver.poisson_sparse import build_laplacian, pressure_poisson_sparse
+
 
 def run_simulation(config, grid, fields):
     u = fields["u"]
@@ -14,6 +16,9 @@ def run_simulation(config, grid, fields):
     dy = grid["dy"]
     Nx = grid["Nx"]
     Ny = grid["Ny"]
+
+    A = build_laplacian(Nx, Ny, dx, dy)
+
 
     rho = config["physics"]["density"]
     nu = config["physics"]["viscosity"]
@@ -36,7 +41,7 @@ def run_simulation(config, grid, fields):
         )
 
         # Solve pressure Poisson equation
-        p = pressure_poisson(p, dx, dy, b)
+        p = pressure_poisson_sparse(b, A)
 
         # Update velocity
         u, v = update_velocity(u, v, p, un, vn, rho, nu, dt, dx, dy)
